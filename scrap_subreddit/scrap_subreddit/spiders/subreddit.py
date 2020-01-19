@@ -1,6 +1,16 @@
 # -*- coding: utf-8 -*-
 import scrapy
 import json
+import os
+# from elasticsearch import Elasticsearch, Connection
+# import elasticsearch.connection as conn
+# import requests
+
+# elastic_url = os.environ['elasticsearch_host'] + ":" + str(9200)
+# req_conn = conn.RequestsHttpConnection(Connection)
+# req_conn.base_url = elastic_url
+
+# es = Elasticsearch([{'host': os.environ['elasticsearch_host'], 'port': 9200}])
 
 
 class SubredditSpider(scrapy.Spider):
@@ -20,10 +30,15 @@ class SubredditSpider(scrapy.Spider):
     def parse_reddit(self, response):
         data = json.loads(response.body)
         for _, post_info in data['posts'].items():
-            yield {
+            post_db = {
                 'title': post_info['title'],
                 'permalink': post_info['permalink']
             }
+            # res = es.index(index='megacorp',
+            #                doc_type='redditpost',
+            #                body=post_db)
+            # print(res)
+            yield post_db
         token = data.get('token', None)
         if token:
             if (self.number_of_scrapped_pages < int(

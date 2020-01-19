@@ -6,12 +6,22 @@ services:
      build:
        context: ./scrap_subreddit
        dockerfile: Dockerfile
-     environment:
-       - max_number_of_scrapped_pages=5
-       - sub_reddit=flask
+     env_file: dev.env
      volumes:
        - ./output:/output/:rw
-  #    depends_on:
-  #      - splash
-  #  splash:
-  #    image: scrapinghub/splash
+     depends_on:
+       - elasticsearch
+       - scrapyd
+   elasticsearch:
+     image: elasticsearch:7.5.1
+     environment:
+       - discovery.type=single-node
+   scrapyd:
+     container_name: scrapyd
+     image: scrapyd
+     build:
+       context: ./scrapyd
+     restart: always
+     env_file: dev.env
+     ports:
+       - "0:6800:6800"
