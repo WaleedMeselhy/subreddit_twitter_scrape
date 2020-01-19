@@ -1,0 +1,11 @@
+Flask
+Flask-Testing
+gunicorn
+coverage
+requests
+Flask-Env
+simplejson
+schematics
+ipython
+flask-cors
+elasticsearch

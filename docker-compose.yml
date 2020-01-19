@@ -7,8 +7,6 @@ services:
        context: ./scrap_subreddit
        dockerfile: Dockerfile
      env_file: dev.env
-     volumes:
-       - ./output:/output/:rw
      depends_on:
        - elasticsearch
        - scrapyd
@@ -16,6 +14,8 @@ services:
      image: elasticsearch:7.5.1
      environment:
        - discovery.type=single-node
+     logging:
+       driver: none 
    scrapyd:
      container_name: scrapyd
      image: scrapyd
@@ -25,3 +25,13 @@ services:
      env_file: dev.env
      ports:
        - "0:6800:6800"
+   backend:
+     image: backend
+     env_file: dev.env
+     build:
+       context: backend
+     depends_on:
+       - elasticsearch
+       - scrapyd
+     ports:
+       - 0:5000:5000

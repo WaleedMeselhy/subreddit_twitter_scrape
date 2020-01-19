@@ -88,6 +88,6 @@ ITEM_PIPELINES = {
 #HTTPCACHE_IGNORE_HTTP_CODES = []
 #HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
 
-ELASTICSEARCH_SERVERS = [f'http://{os.environ["elasticsearch_host"]}:9200']
+ELASTICSEARCH_SERVERS = [f'{os.environ["ELASTICSEARCH_HOST"]}']
 ELASTICSEARCH_INDEX = 'subreddit'
 ELASTICSEARCH_TYPE = 'posts'
