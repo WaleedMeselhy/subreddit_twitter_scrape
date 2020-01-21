@@ -3,6 +3,8 @@ import requests
 from flask import current_app
 from elasticsearch import Elasticsearch
 
+doc_typies = {'subreddit': 'posts'}
+
 
 def add_scrapyjob():
     scrapyd_host = f"http://{current_app.config['SCRAPYD_HOST']}/schedule.json"
@@ -20,7 +22,7 @@ def search():
 
     es: Elasticsearch = current_app.elasticsearch
     results = es.search(index=index,
-                        doc_type='posts',
+                        doc_type=doc_typies[index],
                         body={"query": {
                             "query_string": {
                                 "query": text

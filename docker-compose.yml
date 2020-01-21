@@ -1,6 +1,12 @@
 version: '3.3'
 
 services:
+  #  scrap_twitter:
+  #    image: scrap_twitter
+  #    build:
+  #      context: ./scrap_twitter
+  #      dockerfile: Dockerfile
+
    subreddit:
      image: scrap_subreddit
      build:
