@@ -32,7 +32,6 @@ def add_scrapyjob():
 
 
 def search():
-    index = request.args.get('index')
     text = request.args.get('text')
 
     es: Elasticsearch = current_app.elasticsearch

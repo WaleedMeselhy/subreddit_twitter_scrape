@@ -5,4 +5,4 @@ set -o pipefail
 set -o nounset
 
 
-/usr/local/bin/gunicorn -b 0.0.0.0:5000 manage_main:app -w 4 --chdir=/app
+/usr/local/bin/gunicorn -b 0.0.0.0:5000 main:app -w 4 --chdir=/app

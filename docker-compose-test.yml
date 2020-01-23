@@ -1,0 +1,38 @@
+version: '3.3'
+
+services:
+   subreddit:
+     image: scrap_subreddit
+     build:
+       context: ./scrap_subreddit
+       dockerfile: Dockerfile
+     env_file: dev.env
+     depends_on:
+       - elasticsearch
+       - scrapyd
+   elasticsearch:
+     image: elasticsearch:7.5.1
+     environment:
+       - discovery.type=single-node
+     logging:
+       driver: none 
+   scrapyd:
+     container_name: scrapyd
+     image: scrapyd
+     build:
+       context: ./scrapyd
+     restart: always
+     env_file: dev.env
+     ports:
+       - "0:6800:6800"
+   backend:
+     image: backend
+     env_file: dev.env
+     command: flask test
+     build:
+       context: backend
+     depends_on:
+       - elasticsearch
+       - scrapyd
+     ports:
+       - 0:5000:5000

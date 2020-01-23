@@ -18,17 +18,32 @@ else
 fi
 }
 
+function escrapyd_ready(){
+response=$(curl --write-out %{http_code} --silent --output /dev/null $SCRAPYD_HOST)
+if [ $response -ge 200 ]; then
+    return 0
+else
+    return -1
+fi
+}
 
 until elastic_ready; do
   >&2 echo "Elastic is unavailable - sleeping"
   sleep 1
 done
-
-
 >&2 echo "Elastic is up - continuing..."
+
+until escrapyd_ready; do
+  >&2 echo "Scrapyd is unavailable - sleeping"
+  sleep 1
+done
+>&2 echo "Scrapyd is up - continuing..."
+
+
+
 if [ -z "$cmd" ]; then
     if [ "x$localdev" = "xtrue" ]; then
-        exec python manage.py run -h 0.0.0.0
+        exec python main.py run -h 0.0.0.0
     else
         exec /app/gunicorn.sh
     fi
