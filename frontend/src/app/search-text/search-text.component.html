@@ -1,0 +1,37 @@
+<div class="col-md-12">
+    <form (ngSubmit)="on_search(f)" #f="ngForm">
+      <div class="row">
+        <div class="col-sm-5 form-group">
+          <label for="forked">Text</label>
+          <input
+            type="text"
+            id="text"
+            class="form-control"
+            name="text"
+            placeholder="Search for anything"
+            [ngModel]
+            required
+          />
+        </div>
+      </div>
+  
+      <div class="row">
+        <div class="col-sm-5 form-group">
+          <button class="btn btn-success" [disabled]="!f.valid" type="search">
+            search
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <div class="row">
+    <div class="col-xs-12">
+      <app-search-result-item
+        *ngFor="let itemEl of items; let i = index"
+        [item]="itemEl"
+        [index]="i"
+      ></app-search-result-item>
+    </div>
+  </div>
+  

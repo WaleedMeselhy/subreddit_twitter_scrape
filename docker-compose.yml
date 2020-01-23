@@ -7,6 +7,14 @@ services:
   #      context: ./scrap_twitter
   #      dockerfile: Dockerfile
 
+   frontend:
+    image: frontend
+    build:
+      context: frontend
+    depends_on:
+      - backend
+    ports:
+      - 0:80:80
    subreddit:
      image: scrap_subreddit
      build:
