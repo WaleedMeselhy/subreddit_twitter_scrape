@@ -24,11 +24,22 @@ def add_scrapyjob():
             data['sub_reddit'] = [
                 sub for sub in reversed(url.split('/')) if sub != ''
             ][0]
-    r = requests.post(scrapyd_host, data=data)
-    if r.status_code == 200:
-        return ''
-    else:
-        return '', r.status_code
+            r = requests.post(scrapyd_host, data=data)
+            if r.status_code == 200:
+                return ''
+            else:
+                return '', r.status_code
+    if 'twitter' in url:
+        if re.match('https://twitter.com/[^/]*$', url):
+            account_name = [
+                sub for sub in reversed(url.split('/')) if sub != ''
+            ][0]
+            current_app.celery_app.send_task('get_tweets_twitter_account_task',
+                                             kwargs={
+                                                 'account_name': account_name,
+                                                 'max_number_of_tweets': 20
+                                             })
+            return ''
 
 
 def search():

@@ -1,11 +1,6 @@
 version: '3.3'
 
 services:
-  #  scrap_twitter:
-  #    image: scrap_twitter
-  #    build:
-  #      context: ./scrap_twitter
-  #      dockerfile: Dockerfile
 
    frontend:
     image: frontend
@@ -49,3 +44,18 @@ services:
        - scrapyd
      ports:
        - 0:5000:5000
+
+   rabbitmq:
+     image: rabbitmq:3.7.8-management-alpine
+     ports:
+       - 15672:15672
+
+   celery_worker:
+     depends_on:
+       - rabbitmq
+       - backend
+     image: celery_worker
+     env_file: dev.env
+     build:
+      context: scrap_twitter_celery_worker
+      

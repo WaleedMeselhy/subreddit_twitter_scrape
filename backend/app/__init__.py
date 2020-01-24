@@ -1,5 +1,6 @@
 import os
 from elasticsearch import Elasticsearch
+from celery import Celery
 
 from flask import Flask
 from flask_cors import CORS
@@ -22,6 +23,10 @@ def create_app():
     app.elasticsearch = Elasticsearch([
         app.config['ELASTICSEARCH_HOST']
     ]) if app.config['ELASTICSEARCH_HOST'] else None
+
+    app.celery_app = Celery('crawler',
+                            broker='amqp://rabbitmq',
+                            backend='rpc://')
 
     # register blueprints
     app.register_blueprint(rest_api)
