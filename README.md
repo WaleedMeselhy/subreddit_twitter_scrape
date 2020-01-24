@@ -22,9 +22,10 @@ requires [Docker Compose](https://docs.docker.com/compose/) to run.
 ### Run example.
 
 ``` sh
+git clone git@github.com:WaleedMeselhy/subreddit_twitter_scrape.git
 cd subreddit_twitter_scrape
-./run --normal # to run example
-./run --test # to run backend testing
+./run.sh --normal # to run example
+./run.sh --test # to run backend testing
 # press D at any time to stop
 ```
 
