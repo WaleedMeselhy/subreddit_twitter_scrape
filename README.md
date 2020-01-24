@@ -30,3 +30,6 @@ cd subreddit_twitter_scrape
 ```
 
 navigate to [http://localhost/](http://localhost/) to start adding jobs for collecting data and search.
+
+![Example](https://github.com/WaleedMeselhy/subreddit_twitter_scrape/blob/master/example.gif)
+
